@@ -47,7 +47,7 @@ def get_page_data(driver: Chrome, url: str) -> List[List[str]]:
             # cut numeration
             name = name.split('. ', 1)[1]
         image = Image.open(BytesIO(b64decode(cols[2].screenshot_as_base64)))
-        text = pytesseract.image_to_string(image, config='--psm 6')
+        text = pytesseract.image_to_string(image, config='--psm 6 -c "tessedit_char_whitelist=0123456789.%"')
         lines = text.strip().splitlines()
         if len(lines) >= 3 and lines[-1] == '%':
             lines = (*lines[:-2], lines[-2] + lines[-1])
