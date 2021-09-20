@@ -8,6 +8,7 @@ import pytesseract
 from PIL import Image
 from selenium.webdriver import Chrome, ChromeOptions
 
+pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 
 def init_driver() -> Chrome:
     options = ChromeOptions()
@@ -42,10 +43,16 @@ def get_page_data(driver: Chrome, url: str) -> List[List[str]]:
 
     for i, row in enumerate(rows):
         cols = row.find_elements_by_tag_name('td')
-        name = cols[1].text.strip()
+        if len(cols) > 1:
+            name = cols[1].text.strip()
+        else:
+            continue
         if '. ' in name[:10]:
             # cut numeration
             name = name.split('. ', 1)[1]
+        # if line is blank --> skip
+        if len(cols) < 3:
+            continue
         image = Image.open(BytesIO(b64decode(cols[2].screenshot_as_base64)))
         text = pytesseract.image_to_string(image, config='--psm 6 -c "tessedit_char_whitelist=0123456789.%"')
         lines = text.strip().splitlines()
