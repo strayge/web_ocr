@@ -42,13 +42,16 @@ def get_page_data(driver: Chrome, url: str) -> List[List[str]]:
 
     for i, row in enumerate(rows):
         cols = row.find_elements_by_tag_name('td')
-        col2 = cols[1].text.strip()
-        if '. ' in col2[:10]:
+        name = cols[1].text.strip()
+        if '. ' in name[:10]:
             # cut numeration
-            col2 = col2.split('. ', 1)[1]
+            name = name.split('. ', 1)[1]
         image = Image.open(BytesIO(b64decode(cols[2].screenshot_as_base64)))
         text = pytesseract.image_to_string(image, config='--psm 6')
-        results.append([col2, *text.strip().splitlines()])
+        lines = text.strip().splitlines()
+        if len(lines) >= 3 and lines[-1] == '%':
+            lines = (*lines[:-2], lines[-2] + lines[-1])
+        results.append([name, *lines])
     return results
 
 
