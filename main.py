@@ -42,6 +42,9 @@ def get_page_data(driver: Chrome, url: str) -> List[List[str]]:
 
     for i, row in enumerate(rows):
         cols = row.find_elements_by_tag_name('td')
+        # if line is blank --> skip
+        if len(cols) < 3:
+            continue
         name = cols[1].text.strip()
         if '. ' in name[:10]:
             # cut numeration
