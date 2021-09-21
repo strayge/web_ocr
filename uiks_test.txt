@@ -1,2 +1,0 @@
-http://www.nnov.vybory.izbirkom.ru/region/izbirkom?action=show&root=522000005&tvd=4524041307085&vrn=100100225883172&prver=0&pronetvd=null&region=52&sub_region=52&type=463&report_mode=null
-http://www.nnov.vybory.izbirkom.ru/region/izbirkom?action=show&root=522000005&tvd=4524041307087&vrn=100100225883172&prver=0&pronetvd=null&region=52&sub_region=52&type=463&report_mode=null
